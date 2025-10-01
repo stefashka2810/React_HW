@@ -1,60 +1,47 @@
-import { useGeneratorStore } from "../store/generatorStore";
-import styles from "../features/upload/UploadForm.module.css";
-import RemoveIcon from "../assets/RemoveIcon.svg?react";
+import styles from "./GeneratorBlock.module.css";
+import Button from "../components/Button.tsx";
+import useGenerateApi from "../hooks/useGenerateApi.ts";
 
 const GeneratorPage = () => {
-  const { status, generate, reset } = useGeneratorStore();
+    const {status,
+        downloadUrl,
+        filename,
+        errorMsg,
+        getGeneratedFile} =  useGenerateApi();
 
-  return (
-    <div className={styles.wrapper}>
-      <p className={styles.description}>
-        Сгенерируйте готовый csv-файл нажатием одной кнопки
-      </p>
+    return (
+        <div className={styles.wrapper}>
+            <p className={styles.description}>
+                Сгенерируйте готовый csv-файл нажатием одной кнопки
+            </p>
 
-      {status === "idle" && (
-        <button className={styles.submitBtn} onClick={generate}>
-          Начать генерацию
-        </button>
-      )}
+            {status === "begin" && (
+                <Button isActive onClick={getGeneratedFile}>Начать генерацию</Button>
+            )}
 
-      {status === "loading" && (
-        <div>
-          <div className={styles.spinner}></div>
-          <p>идёт процесс генерации</p>
+            {status === "loading" && (
+                <div className={styles.fileBlock}>
+                    <div className={styles.spinner}></div>
+                    <p>идёт процесс генерации</p>
+                </div>
+            )}
+
+            {status === "error" && (
+                <div className={styles.fileBlock}>
+                    <p>упс, не то... {errorMsg && <span>({errorMsg})</span>}</p>
+                    <Button isActive onClick={getGeneratedFile}>Повторить</Button>
+                </div>
+            )}
+
+            {status === "success" && downloadUrl && (
+                <div className={styles.fileBlock}>
+                    <span>Готово!</span>
+                    <a href={downloadUrl} download={filename}>Скачать {filename}</a>
+                    <Button isActive onClick={getGeneratedFile}>Сгенерировать снова</Button>
+                </div>
+            )}
         </div>
-      )}
-
-      {status === "done" && (
-        <div className={styles.fileRow}>
-          <div
-            className={styles.fileBlock}
-            style={{ backgroundColor: "#9DFFBD" }}
-          >
-            <span>Done!</span>
-            <button onClick={reset} className={styles.removeBtn}>
-              <RemoveIcon />
-            </button>
-          </div>
-          <p>Файл сгенерирован!</p>
-        </div>
-      )}
-
-      {status === "error" && (
-        <div className={styles.fileRow}>
-          <div
-            className={styles.fileBlock}
-            style={{ backgroundColor: "#FF5F00" }}
-          >
-            <span>Ошибка</span>
-            <button onClick={reset} className={styles.removeBtn}>
-              <RemoveIcon />
-            </button>
-          </div>
-          <p>упс, не то...</p>
-        </div>
-      )}
-    </div>
-  );
+    );
 };
 
 export default GeneratorPage;

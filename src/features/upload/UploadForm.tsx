@@ -4,9 +4,10 @@ import RemoveIcon from "../../assets/RemoveIcon.svg?react";
 import Highlights from "./Highlights";
 import styles from "./UploadForm.module.css";
 import type { UploadResult } from "../../store/uploadStore";
+import Button from "../../components/Button.tsx";
 
 const UploadForm = () => {
-  const { file, setFile, upload, status, result, clear, invalidType } =
+  const { file, setFile, status, result, clear, invalidType } =
     useUploadStore();
 
   const [isDragActive, setIsDragActive] = useState(false);
@@ -91,16 +92,16 @@ const UploadForm = () => {
         {file && status === "loading" && <p>идет парсинг файла</p>}
       </div>
 
-      {!invalidType && status !== "loading" && (
+      {!file && !invalidType && status !== "loading" && (
         <div>
-          <button
-            onClick={upload}
-            className={styles.submitBtn}
-            disabled={!file}
-          >
-            Отправить
-          </button>
+          <Button isActive={false}>Отправить</Button>
         </div>
+      )}
+
+      {file && !invalidType && status !== "loading" && (
+          <>
+            <Button isActive={true}>Отправить</Button>
+          </>
       )}
 
       {status === "success" && result && typeof result === "object" && (
