@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
-import Logo from "../assets/Logo.svg?react";
-import UploadIcon from "../assets/mage_upload.svg?react";
-import GeneratorIcon from "../assets/oui_ml-create-multi-metric-job.svg?react";
-import HistoryIcon from "../assets/solar_history-linear.svg?react";
+import Logo from "../../assets/Logo.svg?react";
+import UploadIcon from "../../assets/mage_upload.svg?react";
+import GeneratorIcon from "../../assets/oui_ml-create-multi-metric-job.svg?react";
+import HistoryIcon from "../../assets/solar_history-linear.svg?react";
 import styles from "./Header.module.css";
 
 const Header = () => {

@@ -1,5 +1,5 @@
-import styles from "./UploadForm.module.css";
-import type { UploadResult } from "../../store/uploadStore";
+import styles from "./Highlights.module.css";
+import type { UploadResult } from "../../../../hooks/uploadStore.ts";
 
 interface HighlightsProps {
   result: UploadResult;

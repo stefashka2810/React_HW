@@ -1,0 +1,27 @@
+.analyticsGrid {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    max-width: 800px;
+    margin-inline: auto;
+}
+
+.analyticsCard {
+    background-color: white;
+    padding: 16px;
+    border-radius: 16px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.analyticsCard strong {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}

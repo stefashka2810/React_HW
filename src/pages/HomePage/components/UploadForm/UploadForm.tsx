@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useUploadStore } from "../../store/uploadStore";
-import RemoveIcon from "../../assets/RemoveIcon.svg?react";
-import Highlights from "./Highlights";
+import { useUploadStore } from "../../../../hooks/uploadStore.ts";
+import RemoveIcon from "../../../../assets/RemoveIcon.svg?react";
+import Highlights from "../Highlights/Highlights.tsx";
 import styles from "./UploadForm.module.css";
-import type { UploadResult } from "../../store/uploadStore";
-import Button from "../../components/Button.tsx";
+import type { UploadResult } from "../../../../hooks/uploadStore.ts";
+import Button from "../../../../components/Button/Button.tsx";
 
 const UploadForm = () => {
-  const { file, setFile, status, result, clear, invalidType } =
+  const { file, setFile, status, upload, result, clear, invalidType } =
     useUploadStore();
 
   const [isDragActive, setIsDragActive] = useState(false);
@@ -92,16 +92,15 @@ const UploadForm = () => {
         {file && status === "loading" && <p>идет парсинг файла</p>}
       </div>
 
-      {!file && !invalidType && status !== "loading" && (
-        <div>
-          <Button isActive={false}>Отправить</Button>
-        </div>
-      )}
-
-      {file && !invalidType && status !== "loading" && (
-          <>
-            <Button isActive={true}>Отправить</Button>
-          </>
+      {status !== "loading" && (
+          <div>
+            <Button
+                isActive={!!file && !invalidType}
+                onClick={file && !invalidType ? upload : undefined}
+            >
+              Отправить
+            </Button>
+          </div>
       )}
 
       {status === "success" && result && typeof result === "object" && (

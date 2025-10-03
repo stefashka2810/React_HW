@@ -3,8 +3,9 @@ import {useState} from "react";
 const useGenerateApi = () => {
     const [status, setStatus] = useState<"begin" | "loading" | "success" | "error">("begin");
     const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
-    const [filename, setFilename] = useState<string>("report.csv");
+    const [filename, setFilename] = useState<string|null>(null);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const [items, setItems] = useState(false);
 
     async function getGeneratedFile() {
         setStatus("loading");
@@ -30,7 +31,6 @@ const useGenerateApi = () => {
                 } catch {
                     throw new Error(message);
                 }
-
             }
 
             const ct = res.headers.get("content-type") ?? "";
@@ -40,15 +40,15 @@ const useGenerateApi = () => {
                 throw new Error(typeof data?.message === "string" ? data.message : "Неожиданный ответ сервера");
             }
 
-            const cd = res.headers.get("content-disposition") ?? "";
-            const m = /filename\*=UTF-8''([^;]+)|filename="([^"]+)"/i.exec(cd);
-            if (m) {
-                const name = decodeURIComponent(m[1] || m[2]);
-                if (name) setFilename(name);
-            }
+            const timeNow = new Date();
+            const newFilename = `result_${timeNow}.csv`;
 
+            setFilename(newFilename);
             const blob = await res.blob();
             const url = URL.createObjectURL(blob);
+            localStorage.setItem(newFilename, url);
+            setItems(true);
+
             setDownloadUrl(url);
             setStatus("success");
         } catch {
@@ -64,6 +64,7 @@ const useGenerateApi = () => {
         downloadUrl,
         filename,
         errorMsg,
+        items,
         getGeneratedFile
     }
 }

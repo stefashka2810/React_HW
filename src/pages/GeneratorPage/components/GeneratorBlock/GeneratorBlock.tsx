@@ -1,13 +1,13 @@
+import useGenerateApi from "../../../../hooks/useGenerateApi.ts";
 import styles from "./GeneratorBlock.module.css";
-import Button from "../components/Button.tsx";
-import useGenerateApi from "../hooks/useGenerateApi.ts";
+import Button from "../../../../components/Button/Button.tsx";
 
-const GeneratorPage = () => {
+const GeneratorBlock = () => {
     const {status,
         downloadUrl,
         filename,
         errorMsg,
-        getGeneratedFile} =  useGenerateApi();
+        getGeneratedFile} = useGenerateApi();
 
     return (
         <div className={styles.wrapper}>
@@ -42,6 +42,6 @@ const GeneratorPage = () => {
             )}
         </div>
     );
-};
+}
 
-export default GeneratorPage;
+export default GeneratorBlock;

@@ -1,4 +1,4 @@
-import UploadForm from "../features/upload/UploadForm";
+import UploadForm from "./components/UploadForm/UploadForm.tsx";
 
 const HomePage = () => {
   return (
